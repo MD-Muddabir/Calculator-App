@@ -14,3 +14,5 @@ function AddNumbers() {
     let result = a + B;
     printResult.textContent = result.toString();
 }
+
+Addbtn.addEventListener("click", AddNumbers)
