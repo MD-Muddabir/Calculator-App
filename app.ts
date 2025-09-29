@@ -8,3 +8,9 @@ const Divbtn = document.getElementById("Divide") as HTMLButtonElement
 
 const printResult = document.getElementById("result") as HTMLOutputElement
 
+function AddNumbers() {
+    let a = parseFloat(number1.value);
+    let B = parseFloat(number2.value);
+    let result = a + B;
+    printResult.textContent = result.toString();
+}
