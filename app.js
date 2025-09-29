@@ -1,35 +1,59 @@
-var number1 = document.getElementById("num1");
-var number2 = document.getElementById("num2");
-var Addbtn = document.getElementById("Add");
-var Subbtn = document.getElementById("Sub");
-var Multibtn = document.getElementById("Mult");
-var Divbtn = document.getElementById("Divide");
-var printResult = document.getElementById("result");
-function AddNumbers() {
-    var a = parseFloat(number1.value);
-    var b = parseFloat(number2.value);
-    var result = a + b;
-    printResult.textContent = result.toString();
-}
-Addbtn.addEventListener("click", AddNumbers);
-function SubtractNumbers() {
-    var a = parseFloat(number1.value);
-    var b = parseFloat(number2.value);
-    var result = a - b;
-    printResult.textContent = result.toString();
-}
-Subbtn.addEventListener("click", SubtractNumbers);
-function MultiplyNumbers() {
-    var a = parseFloat(number1.value);
-    var b = parseFloat(number2.value);
-    var result = a * b;
-    printResult.textContent = result.toString();
-}
-Multibtn.addEventListener("click", MultiplyNumbers);
-function DivideNumbers() {
-    var a = parseFloat(number1.value);
-    var b = parseFloat(number2.value);
-    var result = a / b;
-    printResult.textContent = result.toString();
-}
-Divbtn.addEventListener("click", DivideNumbers);
+const display = document.getElementById("user-input");
+
+// Add number click handlers
+document.querySelectorAll(".num").forEach(btn => {
+    btn.addEventListener("click", e => {
+        const val = e.target.innerText;
+        if (display.innerText === "0") {
+            display.innerText = val;
+        } else {
+            display.innerText += val;
+        }
+    });
+});
+
+// Add operation / other (AC, DEL, %, =)
+document.querySelectorAll(".operation").forEach(btn => {
+    btn.addEventListener("click", e => {
+        const op = e.target.innerText;
+        const current = display.innerText;
+        const lastChar = current.charAt(current.length - 1);
+
+        switch (op) {
+            case "AC":
+                display.innerText = "0";
+                break;
+            case "DEL":
+                if (current.length <= 1) {
+                    display.innerText = "0";
+                } else {
+                    display.innerText = current.slice(0, -1);
+                }
+                break;
+            case "%":
+                // convert to percent
+                let num = parseFloat(current);
+                if (!isNaN(num)) {
+                    display.innerText = (num / 100).toString();
+                }
+                break;
+            case "=":
+                // only evaluate if last char is a number
+                if (!isNaN(lastChar)) {
+                    try {
+                        let result = eval(current);
+                        display.innerText = result;
+                    } catch (err) {
+                        display.innerText = "Error";
+                    }
+                }
+                break;
+            default:
+                // it's +, -, *, /
+                if (!isNaN(lastChar)) {
+                    display.innerText += op;
+                }
+                break;
+        }
+    });
+});
